@@ -2,4 +2,9 @@
     font-family: 'Montserrat', sans-serif;  
     color: #FFF;
     margin-left: 100px;
+    display: flex;
+}
+.cloud{
+    width: 150px;
+    filter: invert(100%);
 }
