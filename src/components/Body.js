@@ -20,13 +20,23 @@ const Body = ()=>{
             e.preventDefault();
             setShowLoading(true)
             try {
-                let res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityField}&&units=metric&lang=pt&appid=e6589e7279a8a0ec755503aff3d4f22d`)
-                let json = res.data;
-                setCityData([json]);
-                setCityField('');
-                setShowTitle(false);
-                setErrorMessage(false);
-                setShowLoading(false);
+                if(cityField === '123' || cityField === 'true' || cityField === 'cidade' || cityField === 'cidades' || cityField === 'sad'){
+                    setErrorMessage(true);
+                    setShowLoading(false);
+                }else{
+                    let res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityField}&&units=metric&lang=pt&appid=e6589e7279a8a0ec755503aff3d4f22d`)
+                    let json = res.data;
+
+                    setCityData([json]);
+
+                    setCityField('');
+                    setShowTitle(false);
+                    setErrorMessage(false);
+                    setShowLoading(false);
+                }
+                
+                
+                
             } catch (error) {
                 setErrorMessage(true);
                 setShowLoading(false);
