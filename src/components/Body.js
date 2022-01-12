@@ -15,6 +15,7 @@ const Body = ()=>{
     const [newYorkCity, setNewYorkCity] = useState([])
     const [errorMessage, setErrorMessage] = useState(false)
     const [showLoading, setShowLoading] = useState(true);
+    const [emptyMessage, setEmptyMessage] = useState(false);
 
     const getCity = async(e)=>{
             e.preventDefault();
@@ -22,21 +23,23 @@ const Body = ()=>{
             try {
                 if(cityField === '123' || cityField === 'true' || cityField === 'cidade' || cityField === 'cidades' || cityField === 'sad'){
                     setErrorMessage(true);
+                    setEmptyMessage(false);
                     setShowLoading(false);
-                }else{
+                }else if(cityField === ''){
+                    setEmptyMessage(true);
+                    setShowLoading(false);
+                    setErrorMessage(false);
+                }
+                else{
                     let res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityField}&&units=metric&lang=pt&appid=e6589e7279a8a0ec755503aff3d4f22d`)
                     let json = res.data;
-
                     setCityData([json]);
-
                     setCityField('');
                     setShowTitle(false);
                     setErrorMessage(false);
                     setShowLoading(false);
+                    setEmptyMessage(false);
                 }
-                
-                
-                
             } catch (error) {
                 setErrorMessage(true);
                 setShowLoading(false);
@@ -154,6 +157,11 @@ const Body = ()=>{
                 {errorMessage && 
                     <div className='error'>
                         <h4>Localidade não encontrada! </h4><IoMdWarning className='warningIcon'/>
+                    </div>
+                }
+                {emptyMessage && 
+                    <div className='error'>
+                        <h4>Você deve digitar algo! </h4><IoMdWarning className='warningIcon'/>
                     </div>
                 }
                 
