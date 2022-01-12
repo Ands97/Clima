@@ -33,12 +33,17 @@
 .search{
     border-bottom: 1px solid;
     height: 28px;
-    width: 15vw;
+    width: 13vw;
     display: flex;
     align-items: center;
     padding: 0 10px;
     margin-top: 20px;
-    margin-left: 45px;
+    margin-left: 70px;
+}
+.searchField{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .search input{
     flex: 1;
@@ -81,7 +86,41 @@
 }
 .citiesTemp{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15px;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.error{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.warningIcon{
+    color: yellow;
+    margin-left: 5px;
+}
+.loaderPosition{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loader{
+    animation: is-rotating 1s infinite;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 6px solid #e5e5e5;
+    border-top-color: #51d4db;
+}
+@keyframes is-rotating{
+    to{
+        transform: rotate(1turn);
+    }
 }
 
 @media screen and (max-width: 835px){
