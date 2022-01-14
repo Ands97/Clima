@@ -153,7 +153,7 @@
     }
 }
 
-@media screen and (max-width: 835px){
+@media screen and (max-width: 1000px){
     .body{
         display: flex;
         flex-direction: column-reverse;
@@ -162,6 +162,10 @@
         width: 80vw;
     }
     .search{
+        width: 50vw;
+        margin-left: 50px;
+    }
+    .searchField{
         width: 50vw;
     }
     .second-box{
@@ -181,4 +185,24 @@
         margin-left: 0px;
     }
     
+}
+
+@media screen and (min-width: 500px){
+    .search{
+        width: 50vw;
+        margin-left: 20%;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .search{
+        width: 13vw;
+        margin-left: 20%;
+    }
+    .search input{
+        width: 11.5vw;
+    }
+    .searchField{
+        width: 1vw;
+    }
 }
