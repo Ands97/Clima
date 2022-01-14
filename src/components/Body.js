@@ -16,12 +16,21 @@ const Body = ()=>{
     const [errorMessage, setErrorMessage] = useState(false)
     const [showLoading, setShowLoading] = useState(true);
     const [emptyMessage, setEmptyMessage] = useState(false);
+    const [forecast, setForecast] = useState([]);
+    const [lat, setLat] = useState(''); 
+    const [lon, setLon] = useState(''); 
 
     const getCity = async(e)=>{
             e.preventDefault();
             setShowLoading(true)
             try {
-                if(cityField === '123' || cityField === 'true' || cityField === 'cidade' || cityField === 'cidades' || cityField === 'sad'){
+                if(
+                    cityField === '123' 
+                    || cityField === 'true'
+                    || cityField === 'cidade' 
+                    || cityField === 'cidades'
+                    || cityField === 'sad'
+                ){
                     setErrorMessage(true);
                     setEmptyMessage(false);
                     setShowLoading(false);
@@ -33,6 +42,8 @@ const Body = ()=>{
                 else{
                     let res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityField}&&units=metric&lang=pt&appid=e6589e7279a8a0ec755503aff3d4f22d`)
                     let json = res.data;
+                    setLat(res.data.coord.lat)
+                    setLon(res.data.coord.lon)
                     setCityData([json]);
                     setCityField('');
                     setShowTitle(false);
@@ -45,15 +56,21 @@ const Body = ()=>{
                 setShowLoading(false);
             }
         }
+    const getForecast = async()=>{
+            getCity()
+            let res = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?appid=e6589e7279a8a0ec755503aff3d4f22d&lat=${lat}&lon=${lon}&units=metric&lang=pt&exclude=current,hourly,minutely`);
+            let json = res.data;
+            setForecast([json]);
+        }
         
-    
     const getBrasilia = async()=>{
         setShowLoading(true)
         let res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=brasilia&&units=metric&lang=pt&appid=e6589e7279a8a0ec755503aff3d4f22d`)
         let json = res.data;
         setBrasiliaCity([json])
         setShowLoading(false)
-    }
+        }
+    
     const getLondon = async()=>{
         setShowLoading(true)
         let res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=london&&units=metric&lang=pt&appid=e6589e7279a8a0ec755503aff3d4f22d`)
@@ -68,12 +85,19 @@ const Body = ()=>{
         setNewYorkCity([json])
         setShowLoading(false)
     }
+
+    const formatDate = (time)=>{
+        let date = new Date(time*1000);
+        let dateFormated = date.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+        return dateFormated
+    }
     useEffect(() => {
         getCity();
+        getForecast();
         getBrasilia();
         getLondon();
         getNewYork();
-    }, [])
+    }, [cityData])
 
     return(
         <div className="body">
@@ -104,7 +128,7 @@ const Body = ()=>{
                 {cityData.map((item, index)=>(
                     <>
                         <div className='title'>
-                            <h3 key={index}>Clima em: </h3>
+                            <h3 key={index}>Clima hoje em: </h3>
                             <span>{item.name}</span>
                         </div>
                         
@@ -133,14 +157,14 @@ const Body = ()=>{
                                         <div>
                                             <img src={Pressure} className='pressureIcon'/><span>Pressão - {item.main.pressure}hPa</span>
                                         </div>
-                                    </div>
-                                </div>
-                                
+                                    </div>        
+                                </div> 
                             ))
                             }
                         </div>
                     </>
                 ))}
+                
                 {showLoading &&
                 <div className='loaderPosition'>
                     <div className='loader'></div> 
@@ -149,7 +173,7 @@ const Body = ()=>{
                 <div className='search'>
                     <form onSubmit={getCity}>
                         <div className='searchField'>
-                            <input type='text' required onInvalid={e => e.target.setCustomValidity('Digite uma localidade!')} onInput={e => e.target.setCustomValidity('')} placeholder='Ex. João Pessoa' value={cityField} onChange={e=>setCityField(e.target.value)}/>
+                            <input type='text' required onInvalid={e => e.target.setCustomValidity('Digite uma localidade!')} onInput={e => e.target.setCustomValidity('')} placeholder='Ex. João Pessoa' value={cityField.toLowerCase()} onChange={e=>setCityField(e.target.value)}/>
                             <SearchIcon onClick={getCity} onKeyPress={getCity} className='searchIcon'/>
                         </div>
                     </form>
@@ -166,6 +190,34 @@ const Body = ()=>{
                 }
                 
             </div>
+            {!showTitle &&
+            <div className='second-box'>
+                {forecast.map((item, index)=>(
+                item.daily.map((info, key)=>(
+                    <div key={key}>
+                        {key > 0 &&
+                            <div className='info'>
+                                <div className='date'>
+                                    <h5>{formatDate(info.dt)}</h5>
+                                </div>
+                                <div className='temperature forecast'>            
+                                    <h2>{info.temp.day.toFixed(1)}°C</h2>
+                                    <div>
+                                        <h5>Min. {info.temp.min.toFixed(1)}°C</h5>
+                                        <h5>Máx. {info.temp.max.toFixed(1)}°C</h5>
+                                    </div>
+                                </div> 
+                            </div>  
+                       }  
+                    </div>
+                ))  
+            ))}
+           </div>
+            }
+            
+            
+            
+            
         </div>
     )
 };
