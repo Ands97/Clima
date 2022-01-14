@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Clima/static/css/main.06d99990.css",
-    "main.js": "/Clima/static/js/main.151e12b1.js",
+    "main.css": "/Clima/static/css/main.1cd7e29a.css",
+    "main.js": "/Clima/static/js/main.6033429c.js",
     "static/media/gauge.png": "/Clima/static/media/gauge.106114f0a9b5a4996cc8.png",
     "static/media/cloud.png": "/Clima/static/media/cloud.671a0fe2624cfbaa4ed1.png",
     "index.html": "/Clima/index.html",
-    "main.06d99990.css.map": "/Clima/static/css/main.06d99990.css.map",
-    "main.151e12b1.js.map": "/Clima/static/js/main.151e12b1.js.map"
+    "main.1cd7e29a.css.map": "/Clima/static/css/main.1cd7e29a.css.map",
+    "main.6033429c.js.map": "/Clima/static/js/main.6033429c.js.map"
   },
   "entrypoints": [
-    "static/css/main.06d99990.css",
-    "static/js/main.151e12b1.js"
+    "static/css/main.1cd7e29a.css",
+    "static/js/main.6033429c.js"
   ]
 }
